@@ -3,11 +3,11 @@ import time
 # import numpy as np
 # for playing effect sound
 from playsound import playsound
-bullRange = 30
-secondRange = 30
-thirdRange = 60
+bullRange = 16
+# secondRange = 30
+# thirdRange = 60
 UploadPath = "C:\\Users\\ino\\Desktop\\"
-mode = None
+mode = 'video'
 
 def main():
     if (mode == 'video'):
@@ -39,8 +39,8 @@ def main():
 
         # 円の描画
         cv2.circle(frame, (centerX, centerY), bullRange, (0, 255, 0), 1, cv2.LINE_4, 0)
-        cv2.circle(frame, (centerX, centerY), secondRange, (0, 255, 0), 1, cv2.LINE_4, 0)
-        cv2.circle(frame, (centerX, centerY), thirdRange, (0, 255, 0), 1, cv2.LINE_4, 0)
+        # cv2.circle(frame, (centerX, centerY), secondRange, (0, 255, 0), 1, cv2.LINE_4, 0)
+        # cv2.circle(frame, (centerX, centerY), thirdRange, (0, 255, 0), 1, cv2.LINE_4, 0)
         cv2.circle(frame, (centerX, centerY), 135, (0, 255, 0), 1, cv2.LINE_4, 0)
 
         if not ret:
@@ -72,7 +72,7 @@ def main():
         for i in range(0, len(contours)):
             if len(contours[i]) > 0:
                 # しきい値より小さい領域は無視する
-                if cv2.contourArea(contours[i]) < 200:
+                if cv2.contourArea(contours[i]) < 300:
                     continue
 
                 # 下から見下ろす感じで取ることを想定、変化があった座標の中で、一番下の座標が得点となる
@@ -100,6 +100,7 @@ def main():
                 cv2.drawContours(frame, contours, -1, (0, 255, 0), 3)
         # 結果を出力
         cv2.imshow("Frame", frame)
+        
         # Escキーで終わる
         key = cv2.waitKey(30)
         if key == 27:
@@ -113,16 +114,16 @@ def detectPoint(centerX, centerY, maxX, maxY):
         print('50point')
         playsound("sounds/重いパンチ1.mp3")
         ret = 50
-    elif (centerX - secondRange <= maxX < centerX + secondRange
-        and centerY - secondRange <= maxY < centerY + secondRange) :
-        print('25point')
-        playsound("sounds/軽いキック1.mp3")
-        ret = 25
-    elif (centerX - thirdRange <= maxX < centerX + thirdRange
-        and centerY - thirdRange <= maxY < centerY + thirdRange) :
-        print('10point')
-        playsound("sounds/軽いパンチ1.mp3")
-        ret = 10
+    # elif (centerX - secondRange <= maxX < centerX + secondRange
+    #     and centerY - secondRange <= maxY < centerY + secondRange) :
+    #     print('25point')
+    #     playsound("sounds/軽いキック1.mp3")
+    #     ret = 25
+    # elif (centerX - thirdRange <= maxX < centerX + thirdRange
+    #     and centerY - thirdRange <= maxY < centerY + thirdRange) :
+    #     print('10point')
+    #     playsound("sounds/軽いパンチ1.mp3")
+    #     ret = 10
     else:
         ret = 0
     return ret
